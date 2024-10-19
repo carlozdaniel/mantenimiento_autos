@@ -19,9 +19,13 @@ gem "jbuilder"
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
+# Authentication
 gem "devise"
-
+# JWT authentication for Devise
 gem "devise-jwt"
+# Model serialization for JSON
+gem "active_model_serializers"
+
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
