@@ -26,6 +26,11 @@ gem "devise-jwt"
 # Model serialization for JSON
 gem "active_model_serializers"
 
+gem "sassc-rails"
+gem "bootstrap", "~> 5.3.1"
+gem "kaminari"
+
+
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
