@@ -3,8 +3,15 @@ class MaintenanceServicesController < ApplicationController
 
   # GET /maintenance_services or /maintenance_services.json
   def index
-    @maintenance_services = MaintenanceService.all
+    @maintenance_services = MaintenanceService.where(car_id: params[:car_id])
+
+    if params[:status].present?
+      @maintenance_services = @maintenance_services.where(status: params[:status])
+    end
+
+    @maintenance_services = @maintenance_services.page(params[:page]).per(10)
   end
+
 
   # GET /maintenance_services/1 or /maintenance_services/1.json
   def show
@@ -12,7 +19,8 @@ class MaintenanceServicesController < ApplicationController
 
   # GET /maintenance_services/new
   def new
-    @maintenance_service = MaintenanceService.new
+    @car = Car.find(params[:car_id])  # Encuentra el auto por el car_id en los parámetros
+    @maintenance_service = @car.maintenance_services.new  # Asocia el nuevo servicio de mantenimiento con ese auto
   end
 
   # GET /maintenance_services/1/edit
@@ -21,11 +29,12 @@ class MaintenanceServicesController < ApplicationController
 
   # POST /maintenance_services or /maintenance_services.json
   def create
-    @maintenance_service = MaintenanceService.new(maintenance_service_params)
+    @car = Car.find(params[:car_id])
+    @maintenance_service = @car.maintenance_services.new(maintenance_service_params)
 
     respond_to do |format|
       if @maintenance_service.save
-        format.html { redirect_to @maintenance_service, notice: "Maintenance service was successfully created." }
+        format.html { redirect_to car_maintenance_services_path(@car), notice: "Maintenance service was successfully created." }
         format.json { render :show, status: :created, location: @maintenance_service }
       else
         format.html { render :new, status: :unprocessable_entity }

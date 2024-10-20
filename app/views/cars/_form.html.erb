@@ -1,32 +1,37 @@
-<%= form_with(model: car) do |form| %>
-  <% if car.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(car.errors.count, "error") %> prohibited this car from being saved:</h2>
+<div data-controller="cars">
+  <%= form_with model: car, html: { multipart: true } do |form| %>
+    <% if car.errors.any? %>
+      <div id="error_explanation" class="alert alert-danger">
+        <h4><%= pluralize(car.errors.count, "error") %> impidieron que este auto se guardara:</h4>
+        <ul>
+          <% car.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-      <ul>
-        <% car.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <!-- Campo para el número de placa -->
+    <div class="form-group mb-4">
+      <%= form.label :plate_number, "Número de Placa", class: 'form-label' %>
+      <%= form.text_field :plate_number, class: 'form-control', required: true %>
+    </div>
+
+    <!-- Campo para el modelo del auto -->
+    <div class="form-group mb-4">
+      <%= form.label :model, "Modelo", class: 'form-label' %>
+      <%= form.text_field :model, class: 'form-control', required: true %>
+    </div>
+
+    <!-- Campo para el año del auto -->
+    <div class="form-group mb-4">
+      <%= form.label :year, "Año", class: 'form-label' %>
+      <%= form.number_field :year, class: 'form-control', required: true %>
+    </div>
+
+    <!-- Botón para guardar -->
+    <div class="form-group text-end">
+      <%= form.submit 'Guardar', class: 'btn btn-primary' %>
     </div>
   <% end %>
-
-  <div>
-    <%= form.label :plate_number, style: "display: block" %>
-    <%= form.text_field :plate_number %>
-  </div>
-
-  <div>
-    <%= form.label :model, style: "display: block" %>
-    <%= form.text_field :model %>
-  </div>
-
-  <div>
-    <%= form.label :year, style: "display: block" %>
-    <%= form.number_field :year %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

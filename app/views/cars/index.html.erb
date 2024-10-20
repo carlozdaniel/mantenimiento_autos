@@ -1,16 +1,45 @@
-<p style="color: green"><%= notice %></p>
+<div class="container" data-controller="catalogTypesIncidents">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>Listado de Autos</h1>
+    </div>
 
-<% content_for :title, "Cars" %>
+    <div class="col-sm-12 d-flex justify-content-end mb-3">
+      <%= link_to 'Nuevo Auto', new_car_path, class: 'btn btn-primary' %>
+    </div>
 
-<h1>Cars</h1>
+    <div class="col-sm-12">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th class='col-3'>Placa</th>
+              <th class='col-3'>Modelo</th>
+              <th class='col-2'>Año</th>
+              <th class='col-4'>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @cars.each do |car| %>
+              <tr>
+                <td><%= car.plate_number %></td>
+                <td><%= car.model %></td>
+                <td><%= car.year %></td>
+                <td>
+                  <%= link_to 'Ver Detalles', car_path(car), class: 'btn btn-success btn-sm me-2' %>
+                  <%= link_to 'Editar', edit_car_path(car), class: 'btn btn-secondary btn-sm me-2' %>
+                  <%= link_to 'Eliminar', car_path(car), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-danger btn-sm' %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
 
-<div id="cars">
-  <% @cars.each do |car| %>
-    <%= render car %>
-    <p>
-      <%= link_to "Show this car", car %>
-    </p>
-  <% end %>
+      <!-- Paginación con Kaminari -->
+      <div class="d-flex justify-content-center mt-4">
+        <%= paginate @cars %>
+      </div>
+    </div>
+  </div>
 </div>
-
-<%= link_to "New car", new_car_path %>

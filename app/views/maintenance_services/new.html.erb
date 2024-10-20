@@ -1,11 +1,13 @@
-<% content_for :title, "New maintenance service" %>
+<% content_for :title, "Nuevo servicio de mantenimiento" %>
 
-<h1>New maintenance service</h1>
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <h1 class="mb-4">Nuevo servicio de mantenimiento</h1>
 
-<%= render "form", maintenance_service: @maintenance_service %>
+    <%= render "form", maintenance_service: @maintenance_service %>
 
-<br>
-
-<div>
-  <%= link_to "Back to maintenance services", maintenance_services_path %>
+    <div class="mt-3">
+      <%= link_to "Volver a servicios de mantenimiento", car_maintenance_services_path(@car), class: 'btn btn-secondary' %>
+    </div>
+  </div>
 </div>
