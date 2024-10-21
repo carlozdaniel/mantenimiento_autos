@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe CarsController, type: :controller do
+  include Devise::Test::ControllerHelpers
+
+  # Si usas FactoryBot para crear usuarios
+  let(:user) { FactoryBot.create(:user) }
+
+  before do
+    sign_in user
+  end
+
   let!(:car) { Car.create(plate_number: "ABC123", model: "Sedan", year: 2020) }
 
   describe "GET #index" do

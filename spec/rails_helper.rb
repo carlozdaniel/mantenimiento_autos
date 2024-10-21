@@ -4,6 +4,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+require 'devise'  # <-- Añadido este require
 
 # Incluir archivos de soporte (como request_helper)
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
@@ -24,6 +25,12 @@ RSpec.configure do |config|
 
   # Incluir helpers específicos para pruebas de tipo request
   config.include RequestHelper, type: :request
+
+  # Incluir helpers de Devise para pruebas de controladores
+  config.include Devise::Test::ControllerHelpers, type: :controller
+
+  # Incluir helpers de Devise para pruebas de tipo request
+  config.include Devise::Test::IntegrationHelpers, type: :request
 
   # Inferir el tipo de prueba según la ubicación del archivo
   config.infer_spec_type_from_file_location!

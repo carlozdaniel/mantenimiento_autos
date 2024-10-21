@@ -1,10 +1,16 @@
-# spec/requests/api/v1/cars_spec.rb
 require 'rails_helper'
 
 RSpec.describe "API V1 Cars", type: :request do
+  include Devise::Test::IntegrationHelpers
+
+  let(:user) { FactoryBot.create(:user) }
   let!(:car) { create(:car) }
   let(:valid_attributes) { { plate_number: 'XYZ123', model: 'Civic', year: 2020 } }
   let(:invalid_attributes) { { plate_number: '', year: 1899 } }
+
+  before do
+    sign_in user
+  end
 
   describe "GET /api/v1/cars" do
     it "returns a paginated list of cars" do

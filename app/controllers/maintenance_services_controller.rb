@@ -1,5 +1,5 @@
 class MaintenanceServicesController < ApplicationController
-  before_action :set_car
+  before_action :authenticate_user!, :set_car
   before_action :set_maintenance_service, only: %i[show edit update destroy]
 
   # GET /maintenance_services or /maintenance_services.json
