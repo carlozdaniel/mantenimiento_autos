@@ -5,8 +5,8 @@ module Api
 
       # GET /api/v1/cars
       def index
-        @cars = Car.all
-        render json: @cars
+        @cars = Car.order(created_at: :desc).page(params[:page]).per(10)
+        render json: @cars, meta: pagination_meta(@cars)
       end
 
       # GET /api/v1/cars/:id
@@ -19,7 +19,7 @@ module Api
         @car = Car.new(car_params)
 
         if @car.save
-          render json: @car, status: :created
+          render json: @car, status: :created, location: api_v1_car_url(@car)
         else
           render json: @car.errors, status: :unprocessable_entity
         end
@@ -36,8 +36,11 @@ module Api
 
       # DELETE /api/v1/cars/:id
       def destroy
-        @car.destroy
-        head :no_content
+        if @car.destroy
+          head :no_content
+        else
+          render json: { error: "No se pudo eliminar el auto" }, status: :unprocessable_entity
+        end
       end
 
       private
@@ -50,6 +53,14 @@ module Api
 
       def car_params
         params.require(:car).permit(:plate_number, :model, :year)
+      end
+
+      def pagination_meta(cars)
+        {
+          current_page: cars.current_page,
+          total_pages: cars.total_pages,
+          total_count: cars.total_count
+        }
       end
     end
   end
