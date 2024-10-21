@@ -25,7 +25,7 @@ class CarsController < ApplicationController
 
     respond_to do |format|
       if @car.save
-        format.html { redirect_to @car, notice: "Car was successfully created." }
+        format.html { redirect_to @car, notice: "El auto fue creado exitosamente." }
         format.json { render :show, status: :created, location: @car }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class CarsController < ApplicationController
   def update
     respond_to do |format|
       if @car.update(car_params)
-        format.html { redirect_to @car, notice: "Car was successfully updated." }
+        format.html { redirect_to @car, notice: "El auto fue actualizado exitosamente." }
         format.json { render :show, status: :ok, location: @car }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -49,22 +49,27 @@ class CarsController < ApplicationController
 
   # DELETE /cars/1 or /cars/1.json
   def destroy
-    @car.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to cars_path, status: :see_other, notice: "Car was successfully destroyed." }
-      format.json { head :no_content }
+    if @car.destroy
+      respond_to do |format|
+        format.html { redirect_to cars_path, notice: "El auto fue eliminado exitosamente." }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to @car, alert: "No se pudo eliminar el auto." }
+        format.json { render json: @car.errors, status: :unprocessable_entity }
+      end
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_car
-      @car = Car.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def car_params
-      params.require(:car).permit(:plate_number, :model, :year)
-    end
+  private
+
+  def set_car
+    @car = Car.find(params[:id])
+  end
+
+  def car_params
+    params.require(:car).permit(:plate_number, :model, :year)
+  end
 end

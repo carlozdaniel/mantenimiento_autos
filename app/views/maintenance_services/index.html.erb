@@ -36,6 +36,15 @@
                   <td><%= service.status.humanize %></td>
                   <td><%= l(service.date) %></td>
                   <td>
+                    <div class="d-flex align-items-center gap-1">
+                      <%= link_to 'Ver', car_maintenance_service_path(service.car_id, service), class: 'btn btn-info btn-sm' %>
+                      <%= link_to 'Editar', edit_car_maintenance_service_path(service.car_id, service), class: 'btn btn-warning btn-sm' %>
+                      <%= button_to 'Eliminar', car_maintenance_service_path(service.car_id, service),
+                                  method: :delete,
+                                  data: { confirm: '¿Estás seguro de que deseas eliminar este servicio?' },
+                                  class: 'btn btn-danger btn-sm',
+                                  form_class: 'd-inline' %>
+                    </div>
                   </td>
                 </tr>
               <% end %>

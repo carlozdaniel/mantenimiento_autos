@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   end
 
   resources :cars do
-    resources :maintenance_services, only: [ :index, :new, :create ]
+    resources :maintenance_services, only: [ :index, :new, :create, :show, :edit, :update, :destroy ]
   end
 
   root "cars#index"
